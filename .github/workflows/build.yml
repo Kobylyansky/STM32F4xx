@@ -18,11 +18,11 @@ jobs:
           release: '10.3-2021.10'
 
       - name: Build firmware
-        run: 
+        run: |
           make
-          
-- name: Upload firmware
-  uses: actions/upload-artifact@v4
-  with:
-    name: firmware
-    path: build/*.bin
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: build/*.bin
