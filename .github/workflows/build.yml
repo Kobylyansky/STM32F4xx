@@ -1,28 +1,28 @@
-name: Build grblHAL
+name: Build grblHAL (PlatformIO)
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install ARM GCC
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
-        with:
-          release: '10.3-2021.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
 
-      - name: Build firmware
-        run: |
-          make
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build with PlatformIO
+        run: platformio run
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: build/*.bin
+          path: .pio/build/*/firmware.bin
